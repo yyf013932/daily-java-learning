@@ -1,8 +1,5 @@
 package daniel.yyf.er017.august.classloader;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.*;
 import java.lang.reflect.Method;
 
 /**
@@ -63,24 +60,24 @@ public class ClassLoaderDemo {
 
     public static void main(String[] args) throws Exception {
 
-        Class<?> cpClazz = A.class;
+        Class<?> cpClazz = TestService.class;
         showClassLoaderHierachy(cpClazz);
 
         //这里需要更改为自己文件目录下target/classes文件夹
         ClassLoader classLoader = new FileSystemClassLoader("D:\\git-repository\\daily-java-learning\\target\\classes");
-        Class<?> clazz = classLoader.loadClass("daniel.yyf.er017.august.classloader.A");
+        Class<?> clazz = classLoader.loadClass("daniel.yyf.er017.august.classloader.TestService");
         showClassLoaderHierachy(clazz);
 
         //使用不同加载器加载的同一份字节码文件的类也是不一样的
         //false
-        System.out.println(A.class == clazz);
+        System.out.println(TestService.class == clazz);
 
         //使用反射创建一个实例
         Object obj = clazz.newInstance();
 
         try {
             //这里无法强制转换
-            A a = (A) obj;
+            TestService a = (TestService) obj;
         } catch (Exception e) {
             System.out.println("cast failed!");
         }
@@ -90,65 +87,19 @@ public class ClassLoaderDemo {
         //say hello
         method.invoke(obj);
 
+        Method getAndIncress = clazz.getDeclaredMethod("getAndIncrease");
+        //同一个类不同加载器加载的不会共享静态变量（完全可以当做两个类）
+        //0
+        System.out.println(getAndIncress.invoke(obj));
+        //1
+        System.out.println(getAndIncress.invoke(obj));
+        //0
+        System.out.println(TestService.getAndIncrease());
+        //1
+        System.out.println(TestService.getAndIncrease());
+
+
     }
 }
 
 
-/**
- * 自定义的类加载器
- */
-class FileSystemClassLoader extends ClassLoader {
-
-    String rootPath;
-
-    public FileSystemClassLoader(String rootPath) {
-        this.rootPath = rootPath;
-    }
-
-    /**
-     * 这里覆盖这个方法的原因是为了更改加载类的流程，不从父加载器加载，直接从指定路径加载，为了方便测试
-     * 实际使用中不建议这么做
-     *
-     * @param name
-     * @return
-     * @throws ClassNotFoundException
-     */
-    @Override
-    public Class<?> loadClass(String name) throws ClassNotFoundException {
-        try {
-            Class<?> clazz = findClass(name);
-            if (clazz != null)
-                return clazz;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return super.loadClass(name);
-    }
-
-    /**
-     * 自定义ClassLoader时建议覆盖这个方法
-     * 读取class文件的字节码byte数组，然后通过defineClass创建对应的Class
-     *
-     * @param name
-     * @return
-     * @throws ClassNotFoundException
-     */
-    @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
-
-        String[] paths = name.trim().split("\\.");
-        String filePath = StringUtils.join(paths, File.separator);
-        try {
-            byte[] buff = new byte[1024 * 4];
-            int len = -1;
-            FileInputStream fileInputStream = new FileInputStream(new File(rootPath + File.separator + filePath + ".class"));
-            len = fileInputStream.read(buff);
-            Class<?> clazz = null;
-            clazz = defineClass(name, buff, 0, len);
-            return clazz;
-        } catch (IOException e) {
-
-        }
-        return null;
-    }
-}
