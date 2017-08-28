@@ -1,0 +1,8 @@
+基本上，所有的 IO 在NIO 中都从一个Channel 开始。Channel 有点象流。 数据可以从Channel读到Buffer中，也可以从Buffer 写到Channel中。
+Channel和Buffer有好几种类型。下面是JAVA NIO中的一些主要Channel的实现：
+FileChannel,DatagramChannel,SocketChannel,ServerSocketChannel
+这些通道涵盖了UDP 和 TCP 网络IO，以及文件IO.
+以下是Java NIO里关键的Buffer实现：
+ByteBuffer,CharBuffer,DoubleBuffer,FloatBuffer,IntBuffer,LongBuffer,ShortBuffer
+这些Buffer覆盖了你能通过IO发送的基本数据类型：byte, short, int, long, float, double 和 char。
+Java NIO 还有个 MappedByteBuffer，用于表示内存映射文件
