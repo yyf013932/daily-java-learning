@@ -6,7 +6,6 @@ import rx.Scheduler;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -79,6 +78,7 @@ public class SimpleDemo {
                 subscriber.onCompleted();
             }
         });
+
         observable
                 //设置subscribe发生的线程
                 .subscribeOn(Schedulers.from(executorService))
