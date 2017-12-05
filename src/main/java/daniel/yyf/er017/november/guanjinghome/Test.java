@@ -15,11 +15,11 @@ public class Test {
         // TODO Auto-generated method stub
         String file = "/data/p03.cri";
         Instance inst = new Instance(file);
-        inst.m = 4;
-        inst.Q = 100;
-        inst.T = 100;
+        inst.m = 2;
+        inst.Q = 50;
+        inst.T = 50;
         Tabu tabu = new Tabu(inst);
-        List<Route> re = tabu.solve(200, 100);
+        List<Route> re = tabu.solve(1000, 30);
         System.out.println(new Gson().toJson(re));
     }
 

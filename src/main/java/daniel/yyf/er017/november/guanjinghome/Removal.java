@@ -47,18 +47,6 @@ public class Removal {
         return ret;
     }
 
-    /**
-     * 删除路径里指定的index位置的节点，返回新的Route
-     *
-     * @param r
-     * @param indexes
-     * @return
-     */
-    public void remove(Route r, int[] indexes) {
-        for (int i : indexes) {
-            remove(r, i);
-        }
-    }
 
     public void remove(Route r, int index) {
         int id = r.seq.get(index);

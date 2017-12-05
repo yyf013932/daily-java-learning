@@ -72,6 +72,8 @@ public class Insertion {
             int id1 = r.seq.get(k);
             int id2 = r.seq.get(k + 1);
             double duration_delta = inst.t[id1][cusId] + inst.t[cusId][id2] - inst.t[id1][id2];
+            if (r.q + inst.q[cusId] > inst.Q)
+                continue;
             if (r.d + duration_delta > inst.T)
                 continue;
             if (min_duration > duration_delta) {

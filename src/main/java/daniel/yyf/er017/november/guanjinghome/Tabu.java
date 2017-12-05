@@ -40,7 +40,7 @@ public class Tabu {
                 break;
             }
             if (ir[0] != -1) {
-                //TODO 1 有bug，我认为tabu_list与tabu_tunure是为了不让短期删除的节点加入route,这意味着在加入的过程中不应该更改这个list
+                //TODO 1 我认为tabu_list与tabu_tunure是为了不让短期删除的节点加入route,这意味着在加入的过程中不应该更改这个list
 //				tabu_list[ir[0]] = iter;
                 Route r = s.get(ir[1]);
                 insertion.insert(r, ir[2], ir[0]);
@@ -75,7 +75,6 @@ public class Tabu {
             //check solution
             double tsp = 0;
             for (int i = 0; i < s.size(); i++) {
-                s.get(i).check(inst);
                 tsp += s.get(i).p;
             }
             if (Math.abs(tsp - sp) > 1e-6) {
@@ -83,6 +82,10 @@ public class Tabu {
                 System.exit(0);
             }
         }
-        return postOpt.postOpt(best_solution);
+        postOpt.postOpt(best_solution);
+        for (Route r : best_solution) {
+            r.check(inst);
+        }
+        return best_solution;
     }
 }
