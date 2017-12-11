@@ -23,7 +23,7 @@ public class Removal {
     //ret[0] is the route where the target customer is;
     //ret[1] is the place where the target customer is
     public int[] explore(ArrayList<Route> s, int iter) {
-        double min_profit = 1e10;
+        double min_profit_density = 1e10;
         double max_duration = 0;
         int[] ret = new int[2];
         ret[0] = ret[1] = -1;
@@ -36,8 +36,9 @@ public class Removal {
                 if (iter - tabu_list[id2] < tabu_tenure)
                     continue;
                 double duration_delta = inst.t[id1][id2] + inst.t[id2][id3] - inst.t[id1][id3];
-                if (inst.p[id2] < min_profit - 1e-6 || inst.p[id2] < min_profit + 1e-6 && duration_delta > max_duration) {
-                    min_profit = inst.p[id2];
+                if (inst.p[id2] / inst.q[id2] < min_profit_density - 1e-6 || inst.p[id2] / inst
+                        .q[id2] < min_profit_density + 1e-6 && duration_delta > max_duration) {
+                    min_profit_density = inst.p[id2] / inst.q[id2];
                     max_duration = duration_delta;
                     ret[0] = i;
                     ret[1] = j;

@@ -33,7 +33,7 @@ public class Insertion {
                 visited[r.seq.get(j)] = true;
             }
         }
-        double max_profit = 0;
+        double max_profit_density = 0;
         double min_duration = 1e10;
         int[] ret = new int[3];
         ret[0] = ret[1] = ret[2] = -1;
@@ -52,8 +52,10 @@ public class Insertion {
                     double duration_delta = inst.t[id1][i] + inst.t[i][id2] - inst.t[id1][id2];
                     if (r.d + duration_delta > inst.T)
                         continue;
-                    if (inst.p[i] > max_profit + 1e-6 || inst.p[i] > max_profit - 1e-6 && min_duration > duration_delta) {
-                        max_profit = inst.p[i];
+                    if (inst.p[i]/ inst.q[i] > max_profit_density + 1e-6 || inst.p[i] / inst.q[i] >
+                            max_profit_density
+                                    - 1e-6 && min_duration > duration_delta) {
+                        max_profit_density = inst.p[i] / inst.q[i];
                         min_duration = duration_delta;
                         ret[0] = i;
                         ret[1] = j;

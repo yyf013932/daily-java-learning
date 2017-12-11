@@ -41,7 +41,7 @@ public class Tabu {
             }
             if (ir[0] != -1) {
                 //TODO 1 我认为tabu_list与tabu_tunure是为了不让短期删除的节点加入route,这意味着在加入的过程中不应该更改这个list
-//				tabu_list[ir[0]] = iter;
+				tabu_list[ir[0]] = iter;
                 Route r = s.get(ir[1]);
                 insertion.insert(r, ir[2], ir[0]);
 //                r.d += inst.t[r.seq.get(ir[2])][ir[0]] + inst.t[ir[0]][r.seq.get(ir[2] + 1)] - inst.t[r.seq.get(ir[2])][r.seq.get(ir[2] + 1)];

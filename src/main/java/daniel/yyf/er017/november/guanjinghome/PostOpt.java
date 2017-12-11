@@ -55,7 +55,6 @@ public class PostOpt {
                         added = true;
                         tp += inst.p[i] - routeSubsets.get(k).p;
                         insertion.insert(newRoute, insertPosition, i);
-                        s.set(j, newRoute);
                         System.out.println("================================");
                         System.out.println("route:" + j);
                         System.out.println("remove:" + routeSubsets.get(k).routeIndexes.stream()
@@ -64,6 +63,7 @@ public class PostOpt {
                         System.out.println("insert:" + i);
                         System.out.println("total profit:" + tp);
                         System.out.println("================================");
+                        s.set(j, newRoute);
                         break;
                     }
                 }
